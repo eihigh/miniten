@@ -64,6 +64,10 @@ func IsClicked() bool {
 	return ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft)
 }
 
+func CursorPos() (int, int) {
+	return ebiten.CursorPosition()
+}
+
 func Println(args ...any) {
 	s := fmt.Sprintln(args...)
 	opt := &text.DrawOptions{}
