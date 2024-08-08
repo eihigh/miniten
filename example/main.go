@@ -12,6 +12,7 @@ var (
 )
 
 func main() {
+	miniten.SetWindowSize(200, 200)
 	miniten.Run(draw)
 }
 

@@ -30,6 +30,10 @@ var (
 	images = map[string]*ebiten.Image{}
 )
 
+func init() {
+	ebiten.SetWindowSize(1600, 900)
+}
+
 func Run(d func()) error {
 	draw = d
 
@@ -39,7 +43,6 @@ func Run(d func()) error {
 	}
 	face = &text.GoTextFace{Source: src, Size: 16}
 
-	ebiten.SetWindowSize(1600, 900)
 	return ebiten.RunGame(app{})
 }
 
@@ -57,7 +60,11 @@ func (app) Draw(s *ebiten.Image) {
 }
 
 func (app) Layout(_, _ int) (int, int) {
-	return 1600, 900
+	return ebiten.WindowSize()
+}
+
+func SetWindowSize(w, h int) {
+	ebiten.SetWindowSize(w, h)
 }
 
 func IsClicked() bool {
