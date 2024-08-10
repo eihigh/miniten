@@ -31,7 +31,8 @@ var (
 )
 
 func init() {
-	ebiten.SetWindowSize(1600, 900)
+	ebiten.SetWindowTitle("miniten")
+	ebiten.SetWindowSize(640, 360)
 }
 
 func Run(d func()) error {
