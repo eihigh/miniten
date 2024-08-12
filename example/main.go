@@ -16,6 +16,7 @@ func main() {
 }
 
 func draw() {
+	miniten.DrawRect(x, y, 100, 100)
 	miniten.Println("Hello,", "World!")
 	miniten.Println("こんにちは、世界")
 	miniten.Println(42)
@@ -23,6 +24,5 @@ func draw() {
 	if miniten.IsClicked() {
 		x, y = miniten.CursorPos()
 	}
-	miniten.DrawRect(x, y, 100, 100)
 	miniten.DrawImage("smile.png", rand.N(15), rand.N(15)+200)
 }

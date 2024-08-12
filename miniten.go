@@ -79,11 +79,17 @@ func CursorPos() (int, int) {
 func Println(args ...any) {
 	s := fmt.Sprintln(args...)
 	opt := &text.DrawOptions{}
-	opt.ColorScale.Scale(0, 0, 0, 1)
 	for _, line := range strings.Split(s, "\n") {
 		opt.GeoM.Reset()
-		opt.GeoM.Translate(0, float64(ln)*12)
+
+		opt.GeoM.Translate(2, float64(ln)*12+2)
+		opt.ColorScale.Scale(1, 1, 1, 1)
 		text.Draw(screen, line, face, opt)
+
+		opt.GeoM.Translate(-2, -2)
+		opt.ColorScale.Scale(0, 0, 0, 1)
+		text.Draw(screen, line, face, opt)
+
 		ln++
 	}
 }
