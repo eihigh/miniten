@@ -69,7 +69,10 @@ func SetWindowSize(w, h int) {
 }
 
 func IsClicked() bool {
-	return ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft)
+	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
+		return true
+	}
+	return len(ebiten.AppendTouchIDs(nil)) != 0
 }
 
 func CursorPos() (int, int) {
