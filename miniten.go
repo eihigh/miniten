@@ -119,3 +119,7 @@ func DrawImage(path string, x, y int) {
 		screen.DrawImage(img, opt)
 	}
 }
+
+func HitTestRects(ax, ay, aw, ah, bx, by, bw, bh int) bool {
+	return ax < bx+bw && bx < ax+aw && ay < by+bh && by < ay+ah
+}
