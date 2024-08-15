@@ -24,17 +24,19 @@ import (
 var font []byte
 
 var (
-	draw     func()
-	screen   *ebiten.Image
-	face     *text.GoTextFace
-	ln       = 0
-	images   = map[string]*ebiten.Image{}
-	fsImages = map[fs.FS]map[string]*ebiten.Image{}
+	winWidth  = 640
+	winHeight = 360
+	draw      func()
+	screen    *ebiten.Image
+	face      *text.GoTextFace
+	ln        = 0
+	images    = map[string]*ebiten.Image{}
+	fsImages  = map[fs.FS]map[string]*ebiten.Image{}
 )
 
 func init() {
 	ebiten.SetWindowTitle("miniten")
-	ebiten.SetWindowSize(640, 360)
+	ebiten.SetWindowSize(winWidth, winHeight)
 }
 
 func Run(d func()) error {
@@ -63,11 +65,12 @@ func (app) Draw(s *ebiten.Image) {
 }
 
 func (app) Layout(w, h int) (int, int) {
-	return 640, 360
+	return winWidth, winHeight
 }
 
 func SetWindowSize(w, h int) {
-	ebiten.SetWindowSize(w, h)
+	winWidth, winHeight = w, h
+	ebiten.SetWindowSize(winWidth, winHeight)
 }
 
 func IsClicked() bool {
