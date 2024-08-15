@@ -63,7 +63,7 @@ func (app) Draw(s *ebiten.Image) {
 }
 
 func (app) Layout(w, h int) (int, int) {
-	return w, h
+	return 640, 360
 }
 
 func SetWindowSize(w, h int) {
