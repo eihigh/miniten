@@ -1,10 +1,14 @@
 package main
 
 import (
+	"embed"
 	"math/rand/v2"
 
 	"github.com/eihigh/miniten"
 )
+
+//go:embed *.png
+var fsys embed.FS
 
 var (
 	x = 0
@@ -25,4 +29,5 @@ func draw() {
 		x, y = miniten.CursorPos()
 	}
 	miniten.DrawImage("smile.png", rand.N(15), rand.N(15)+200)
+	miniten.DrawImageFS(fsys, "smile.png", rand.N(15), rand.N(15)+300)
 }

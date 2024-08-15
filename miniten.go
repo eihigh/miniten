@@ -9,6 +9,7 @@ import (
 	_ "image/gif"
 	_ "image/jpeg"
 	_ "image/png"
+	"io/fs"
 	"log"
 	"os"
 	"strings"
@@ -23,11 +24,12 @@ import (
 var font []byte
 
 var (
-	draw   func()
-	screen *ebiten.Image
-	face   *text.GoTextFace
-	ln     = 0
-	images = map[string]*ebiten.Image{}
+	draw     func()
+	screen   *ebiten.Image
+	face     *text.GoTextFace
+	ln       = 0
+	images   = map[string]*ebiten.Image{}
+	fsImages = map[fs.FS]map[string]*ebiten.Image{}
 )
 
 func init() {
@@ -103,6 +105,29 @@ func DrawRect(x, y, w, h int) {
 
 func DrawCircle(x, y, r int) {
 	vector.DrawFilledCircle(screen, float32(x), float32(y), float32(r), color.Black, false)
+}
+
+func DrawImageFS(fsys fs.FS, path string, x, y int) {
+	images, ok := fsImages[fsys]
+	if !ok {
+		fsImages[fsys] = map[string]*ebiten.Image{}
+		images = fsImages[fsys]
+	}
+	if _, ok := images[path]; !ok {
+		img, _, err := ebitenutil.NewImageFromFileSystem(fsys, path)
+		if errors.Is(err, os.ErrNotExist) {
+			log.Println("画像ファイルが存在しません:", path)
+		} else if err != nil {
+			log.Println("画像ファイルの読み込みに失敗しました:", err.Error())
+		}
+		images[path] = img
+	}
+	img := images[path]
+	if img != nil {
+		opt := &ebiten.DrawImageOptions{}
+		opt.GeoM.Translate(float64(x), float64(y))
+		screen.DrawImage(img, opt)
+	}
 }
 
 func DrawImage(path string, x, y int) {
