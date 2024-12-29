@@ -27,7 +27,7 @@ var (
 	winWidth  = 640
 	winHeight = 360
 	draw      func()
-	screen    *ebiten.Image
+	frame     *ebiten.Image
 	face      *text.GoTextFace
 	ln        = 0
 	images    = map[string]*ebiten.Image{}
@@ -41,6 +41,7 @@ func init() {
 
 func Run(d func()) error {
 	draw = d
+	frame = ebiten.NewImage(winWidth, winHeight)
 
 	src, err := text.NewGoTextFaceSource(bytes.NewReader(font))
 	if err != nil {
@@ -54,14 +55,14 @@ func Run(d func()) error {
 type app struct{}
 
 func (app) Update() error {
+	frame.Fill(color.White)
+	ln = 0
+	draw()
 	return nil
 }
 
-func (app) Draw(s *ebiten.Image) {
-	screen = s
-	screen.Fill(color.White)
-	ln = 0
-	draw()
+func (app) Draw(screen *ebiten.Image) {
+	screen.DrawImage(frame, nil)
 }
 
 func (app) Layout(w, h int) (int, int) {
@@ -92,22 +93,22 @@ func Println(args ...any) {
 
 		opt.GeoM.Translate(2, float64(ln)*12+2)
 		opt.ColorScale.Scale(1, 1, 1, 1)
-		text.Draw(screen, line, face, opt)
+		text.Draw(frame, line, face, opt)
 
 		opt.GeoM.Translate(-2, -2)
 		opt.ColorScale.Scale(0, 0, 0, 1)
-		text.Draw(screen, line, face, opt)
+		text.Draw(frame, line, face, opt)
 
 		ln++
 	}
 }
 
 func DrawRect(x, y, w, h int) {
-	vector.DrawFilledRect(screen, float32(x), float32(y), float32(w), float32(h), color.Black, false)
+	vector.DrawFilledRect(frame, float32(x), float32(y), float32(w), float32(h), color.Black, false)
 }
 
 func DrawCircle(x, y, r int) {
-	vector.DrawFilledCircle(screen, float32(x), float32(y), float32(r), color.Black, false)
+	vector.DrawFilledCircle(frame, float32(x), float32(y), float32(r), color.Black, false)
 }
 
 func DrawImageFS(fsys fs.FS, path string, x, y int) {
@@ -129,7 +130,7 @@ func DrawImageFS(fsys fs.FS, path string, x, y int) {
 	if img != nil {
 		opt := &ebiten.DrawImageOptions{}
 		opt.GeoM.Translate(float64(x), float64(y))
-		screen.DrawImage(img, opt)
+		frame.DrawImage(img, opt)
 	}
 }
 
@@ -147,7 +148,7 @@ func DrawImage(path string, x, y int) {
 	if img != nil {
 		opt := &ebiten.DrawImageOptions{}
 		opt.GeoM.Translate(float64(x), float64(y))
-		screen.DrawImage(img, opt)
+		frame.DrawImage(img, opt)
 	}
 }
 
