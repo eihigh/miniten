@@ -33,6 +33,16 @@ func draw() {
 	if miniten.IsClicked() {
 		x, y = miniten.CursorPos()
 	}
+	switch {
+	case miniten.IsLeft():
+		x--
+	case miniten.IsRight():
+		x++
+	case miniten.IsUp():
+		y--
+	case miniten.IsDown():
+		y++
+	}
 	miniten.DrawImage("smile.png", rand.N(15), rand.N(15)+200)
 	miniten.DrawImageFS(fsys, "smile.png", rand.N(15), rand.N(15)+300)
 }

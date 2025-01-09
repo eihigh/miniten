@@ -81,6 +81,23 @@ func IsClicked() bool {
 	return len(ebiten.AppendTouchIDs(nil)) != 0
 }
 
+func IsLeft() bool {
+	// TODO: virtual gamepad
+	return ebiten.IsKeyPressed(ebiten.KeyLeft)
+}
+
+func IsRight() bool {
+	return ebiten.IsKeyPressed(ebiten.KeyRight)
+}
+
+func IsUp() bool {
+	return ebiten.IsKeyPressed(ebiten.KeyUp)
+}
+
+func IsDown() bool {
+	return ebiten.IsKeyPressed(ebiten.KeyDown)
+}
+
 func CursorPos() (int, int) {
 	return ebiten.CursorPosition()
 }
